@@ -3,7 +3,7 @@ var ghpages = require('gh-pages');
 ghpages.publish(
     'public',
     {
-        branch: 'gh-pages',
+        branch: 'main',
         repo: 'https://github.com:Tanukitown/DSR-sim.git',
         user: {
             name: 'Tanukitown',
