@@ -5,7 +5,6 @@ html, body {
 }
 
 body {
-	color: #333;
 	margin: 0;
 	padding: 8px;
 	box-sizing: border-box;
@@ -14,4 +13,33 @@ body {
 .icon-sizing {
   width: 3rem;
   height: 3rem;
+}
+
+.boss-sizing {
+  width: 6rem;
+  height: 6rem;
+}
+
+.debuff-sizing {
+  width: 2rem;
+  height: 2.5rem;
+}
+
+.facing-sizing {
+  width: 2rem;
+  height: 1rem;
+  transform: rotate(90deg);
+}
+
+.face-north {
+  transform: rotate(180deg);
+}
+
+.character-with-debuffs {
+  width: 4rem;
+}
+
+.nidstinien-arena {
+  width: 30rem;
+  height: 30rem;
 }
