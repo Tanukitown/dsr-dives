@@ -1,30 +1,23 @@
 <script lang="ts">
-	export let name: string;
+	import {
+		Card,
+		CardBody,
+		Container,
+		Styles
+	} from 'sveltestrap';
+	import "bootswatch/dist/vapor/bootstrap.min.css";
+
+  import RoleIcons from './components/RoleIcons.svelte';
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+<main class="h-100 row align-items-center">
+	<Container class="col h-100 p-5">
+		<Card class="h-100 bg-dark">
+			<CardBody>
+        <RoleIcons />
+			</CardBody>
+		</Card>
+	</Container>
 </main>
 
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+<Styles />
