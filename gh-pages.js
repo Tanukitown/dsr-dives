@@ -1,7 +1,7 @@
 var ghpages = require('gh-pages');
 
 ghpages.publish(
-    './public',
+    'docs',
     {
         branch: 'main',
         repo: 'https://github.com:Tanukitown/DSR-sim.git',
@@ -14,3 +14,4 @@ ghpages.publish(
         console.log('Deploy Complete!')
     }
 )
+∂
