@@ -34,38 +34,38 @@
     party = party.filter( ( el ) => !secondMarkers.includes( el ) );
 
     firstMarkers.forEach(char => {
-      char.append(createDebuff('images/First_In_Line.webp'));
+      char.append(createDebuff('images/First_In_Line.png'));
     })
     if ((Math.floor(Math.random() * 2)) === 0) {
-      firstMarkers[0].append(createDebuff('images/High_Jump_target.webp'));
-      firstMarkers[1].append(createDebuff('images/Elusive_Jump_target.webp'));
-      firstMarkers[2].append(createDebuff('images/Spineshatter_Dive_target.webp'));
+      firstMarkers[0].append(createDebuff('images/High_Jump_target.png'));
+      firstMarkers[1].append(createDebuff('images/Elusive_Jump_target.png'));
+      firstMarkers[2].append(createDebuff('images/Spineshatter_Dive_target.png'));
     } else {
       firstMarkers.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.webp'));
+        char.append(createDebuff('images/High_Jump_target.png'));
       });
     }
     secondMarkers.forEach(char => {
-      char.append(createDebuff('images/Second_In_Line.webp'));
+      char.append(createDebuff('images/Second_In_Line.png'));
     })
     if ((Math.floor(Math.random() * 2)) === 0) {
-      secondMarkers[0].append(createDebuff('images/Elusive_Jump_target.webp'));
-      secondMarkers[1].append(createDebuff('images/Spineshatter_Dive_target.webp'));
+      secondMarkers[0].append(createDebuff('images/Elusive_Jump_target.png'));
+      secondMarkers[1].append(createDebuff('images/Spineshatter_Dive_target.png'));
     } else {
       secondMarkers.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.webp'));
+        char.append(createDebuff('images/High_Jump_target.png'));
       });
     }
     party.forEach(char => {
-      char.append(createDebuff('images/Third_In_Line.webp'));
+      char.append(createDebuff('images/Third_In_Line.png'));
     })
     if ((Math.floor(Math.random() * 2)) === 0) {
-      party[0].append(createDebuff('images/High_Jump_target.webp'));
-      party[1].append(createDebuff('images/Elusive_Jump_target.webp'));
-      party[2].append(createDebuff('images/Spineshatter_Dive_target.webp'));
+      party[0].append(createDebuff('images/High_Jump_target.png'));
+      party[1].append(createDebuff('images/Elusive_Jump_target.png'));
+      party[2].append(createDebuff('images/Spineshatter_Dive_target.png'));
     } else {
       party.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.webp'));
+        char.append(createDebuff('images/High_Jump_target.png'));
       });
     }
   };
