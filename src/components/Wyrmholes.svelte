@@ -4,7 +4,7 @@
 
   let step = 1;
   let inLineGroups = { first: [], second: [], third: [] };
-  const estinien = 'images/estinien.png';
+  const boss = 'images/DefaultNpc.png';
   interface InLineGroups {
     first:  HTMLElement [];
     second: HTMLElement [];
@@ -89,6 +89,33 @@
     }
   };
 
+  const stepFour = () => {
+    const elem = document.createElement('div')
+    elem.className = 'mb-1'
+
+    const label = document.createElement('label')
+    label.setAttribute('for', 'castBarContainer')
+    label.textContent = 'Lash and Gnash'
+
+    const castBarContainer = document.createElement('div')
+    castBarContainer.className = 'progress';
+    castBarContainer.id = 'castBarContainer';
+
+    const castBar = document.createElement('div')
+    castBar.className = 'progress-bar progress-bar-striped bg-warning progress-bar-animated'
+    castBar.setAttribute('role', 'progressbar')
+    castBar.setAttribute('aria-valuenow', '69')
+    castBar.setAttribute('aria-valuemin', '0')
+    castBar.setAttribute('aria-valuemax', '100')
+    castBar.setAttribute('style', 'width:33%')
+
+    castBarContainer.append(castBar)
+    elem.prepend(label)
+    elem.append(castBarContainer)
+
+    document.getElementById('bossContainer').prepend(elem)
+  };
+
   const initEvents = () => {
     document.getElementById('nextStepButton').addEventListener('click', () => {
       const currentStep = document.getElementById('currentStep');
@@ -105,6 +132,9 @@
         case 3:
           stepThree(inLineGroups);
           break;
+        case 4:
+          stepFour();
+          break;
         default:
           break;
       }
@@ -116,6 +146,8 @@
   });
 </script>
 
-<div class="position-absolute top-50 end-50">
-  <img src={estinien} alt="estinien icon" class='boss-sizing face-north' />
+<div class="d-flex justify-content-center align-items-center h-100">
+  <div id="bossContainer">
+    <img src={boss} alt="boss icon" class='boss-sizing face-north' />
+  </div>
 </div>
