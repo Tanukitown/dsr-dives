@@ -91,7 +91,7 @@
 
   const stepFour = () => {
     const elem = document.createElement('div')
-    elem.className = 'mb-1'
+    elem.className = 'boss-castbar'
 
     const label = document.createElement('label')
     label.setAttribute('for', 'castBarContainer')
@@ -107,13 +107,13 @@
     castBar.setAttribute('aria-valuenow', '69')
     castBar.setAttribute('aria-valuemin', '0')
     castBar.setAttribute('aria-valuemax', '100')
-    castBar.setAttribute('style', 'width:33%')
+    castBar.setAttribute('style', 'width:69%')
 
     castBarContainer.append(castBar)
     elem.prepend(label)
     elem.append(castBarContainer)
 
-    document.getElementById('bossContainer').prepend(elem)
+    document.getElementById('bossContainer').append(elem)
   };
 
   const initEvents = () => {
@@ -147,7 +147,7 @@
 </script>
 
 <div class="d-flex justify-content-center align-items-center h-100">
-  <div id="bossContainer">
+  <div id="bossContainer" class="text-center position-relative">
     <img src={boss} alt="boss icon" class='boss-sizing face-north' />
   </div>
 </div>

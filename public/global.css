@@ -25,6 +25,14 @@ body {
   height: 15rem;
 }
 
+.boss-castbar {
+  position: absolute;
+  width: 15rem;
+  top: 0;
+  start: 50;
+  text-align: left;
+}
+
 .debuff-sizing {
   width: 2rem;
   height: 2.5rem;

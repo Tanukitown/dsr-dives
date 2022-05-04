@@ -90,7 +90,7 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between position-absolute start-0 w-100">
   <div id="tankOne" class="character-with-debuffs text-center" on:click={setTarget}>
     <img src={tankIcon} alt="tank icon" class='icon-sizing' />
   </div>
