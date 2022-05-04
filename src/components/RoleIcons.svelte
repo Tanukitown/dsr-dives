@@ -79,7 +79,16 @@
     target = null;
     Array.from(document.querySelectorAll('.target')).forEach((el) => el.classList.remove('target'));
   };
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    if ('key' in e) {
+      if (e.key === 'Escape' || e.key === 'Esc') clearTarget();
+    }
+  }
 </script>
+
+
+<svelte:window on:keydown={handleKeydown}/>
 
 <div>
   <div id="tankOne" class="character-with-debuffs text-center" on:click={setTarget}>

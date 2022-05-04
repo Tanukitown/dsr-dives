@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount } from "svelte/internal";
+
+
   let step = 1;
   const estinien = 'images/estinien.png';
 
@@ -70,55 +73,32 @@
     }
   };
 
+  const stepTwo = () => {
+    //
+  }
 
-  window.onload = () => {
-    stepOne();
+  const initEvents = () => {
     document.getElementById('nextStepButton').addEventListener('click', () => {
+      const currentStep = document.getElementById('currentStep');
+      const nextStep = currentStep.nextElementSibling;
+      currentStep.className = "table-success";
+      currentStep.removeAttribute('id');
+      nextStep.className = 'table-secondary';
+      nextStep.id = 'currentStep';
       step = step + 1;
       switch (step) {
         case 2:
-          // stepTwo();
+          stepTwo();
       }
     })
-  }
+  };
+
+  onMount(() => {
+    initEvents();
+    stepOne();
+  });
 </script>
 
 <div class="position-absolute top-50 end-50">
   <img src={estinien} alt="estinien icon" class='boss-sizing face-north' />
 </div>
-
-<!-- <div class="position-absolute top-0 end-0 mt-5">
-  <ul class="list-unstyled mt-5">
-    <li>0:00    Final Chorus (Raidwide)</li>
-    <li>0:00     Targetable</li>
-    <li>0:13    Dive from Grace (Markers go out)</li>
-    <li>&#9755 0:18    Dive from Grace (Debuffs go out)</li>
-    <li>0:27    Lash And Gnash & Gnash And Lash Cast (In/Out or Out/In)</li>
-    <li>0:28    First in Line: High Jump & Eye of the Tyrant (Shared AoE)</li>
-    <li>0:32    Lash/Gnash Part 1 (In/Out)</li>
-    <li>0:34    First in Line: Tower Soaks</li>
-    <li>0:35    Lash/Gnash Part 2 (In/Out)</li>
-    <li>0:36    First in Line: Clone Baits</li>
-    <li>0:38    Second in Line: High Jump</li>
-    <li>0:40    First in Line: Clone Geirskoguls</li>
-    <li>0:44     Second in Line: Tower Soaks</li>
-    <li>0:46    Second in Line: Clone Baits</li>
-    <li>0:48    Third in Line: High Jump & Eye of the Tyrant (Shared AoE)</li>
-    <li>0:50    Second in Line: Clone Geirskoguls</li>
-    <li>0:52    Lash/Gnash Part 1</li>
-    <li>0:56    Third in Line: Tower Soaks</li>
-    <li>0:57    Lash/Gnash Part 2</li>
-    <li>0:58    Third in Line: Clone Baits</li>
-    <li>1:01    Cleaving Autos Resume</li>
-    <li>1:03    Third in Line: Geirskoguls</li>
-    <li>1:07    Drachenlance (Baited Cleave)</li>
-    <li>1:10    Darkdragon Dive: Towers Appear (Enumerations)</li>
-    <li>1:14    Darkdragon Dive: Tower Soaks</li>
-    <li>1:17    Darkdragon Dive: Baits</li>
-    <li>1:21    Darkdragon Dive: Tethers & Geirskoguls</li>
-    <li>1:23    Soul Tether (Tankbuster Tethers)</li>
-    <li>1:28    Cleaving Autos Resume</li>
-    <li>1:45    Drachenlance (Baited Cleave)</li>
-    <li>1:58    Revenge of the Horde</li>
-  </ul>
-</div> -->

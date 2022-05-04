@@ -43,3 +43,7 @@ body {
   width: 30rem;
   height: 30rem;
 }
+
+.timeline {
+  text-align: right;
+}
