@@ -42,13 +42,13 @@
     party = party.filter( ( el ) => !secondMarkers.includes( el ) );
 
     firstMarkers.forEach(char => {
-      char.append(createDebuff('images/First_In_Line.png', 'first in line debuff'));
+      char.append(createDebuff('images/First_in_Line.png', 'first in line debuff'));
     });
     secondMarkers.forEach(char => {
-      char.append(createDebuff('images/Second_In_Line.png', 'second in line debuff'));
+      char.append(createDebuff('images/Second_in_Line.png', 'second in line debuff'));
     });
     party.forEach(char => {
-      char.append(createDebuff('images/Third_In_Line.png', 'third in line debuff'));
+      char.append(createDebuff('images/Third_in_Line.png', 'third in line debuff'));
     });
 
     return {
@@ -60,31 +60,31 @@
 
   const stepThree = (groups: InLineGroups) => {
     if ((Math.floor(Math.random() * 2)) === 0) {
-      groups.first[0].append(createDebuff('images/High_Jump_target.png', 'high jump target'));
-      groups.first[1].append(createDebuff('images/Elusive_Jump_target.png', 'elusive jump target'));
-      groups.first[2].append(createDebuff('images/Spineshatter_Dive_target.png', 'spineshatter dive target'));
+      groups.first[0].append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
+      groups.first[1].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target'));
+      groups.first[2].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spineshatter dive target'));
     } else {
       groups.first.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
       });
     }
 
     if ((Math.floor(Math.random() * 2)) === 0) {
-      groups.second[0].append(createDebuff('images/Elusive_Jump_target.png', 'elusive jump target'));
-      groups.second[1].append(createDebuff('images/Spineshatter_Dive_target.png', 'spineshatter dive target'));
+      groups.second[0].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target'));
+      groups.second[1].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spineshatter dive target'));
     } else {
       groups.second.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
       });
     }
 
     if ((Math.floor(Math.random() * 2)) === 0) {
-      groups.third[0].append(createDebuff('images/High_Jump_target.png', 'high jump target'));
-      groups.third[1].append(createDebuff('images/Elusive_Jump_target.png', 'elusive jump target'));
-      groups.third[2].append(createDebuff('images/Spineshatter_Dive_target.png', 'spinehsatter dive target'));
+      groups.third[0].append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
+      groups.third[1].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target'));
+      groups.third[2].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spinehsatter dive target'));
     } else {
       groups.third.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
       });
     }
   };

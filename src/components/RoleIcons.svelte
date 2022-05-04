@@ -5,7 +5,7 @@
   const tankIcon = 'images/Tank_Icon_Flat_1.png';
   const healerIcon = 'images/Healer_Icon_Flat_1.png';
   const meleeIcon = 'images/Melee_DPS_Icon_Flat_1.png';
-  const magicRangedIcon = 'images/Magic_ranged_DPS_Icon_Flat_1.png';
+  const magicRangedIcon = 'images/Magic_Ranged_DPS_Icon_Flat_1.png';
   const physRangedIcon = 'images/Physical_Ranged_DPS_Flat_Icon_1.png';
 
   let target;
