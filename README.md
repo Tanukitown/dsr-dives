@@ -2,7 +2,7 @@
 
 This tool provides an interactive timeline to walk you through a phase step by step. As mechanics resolve, you will have to have place each party member in the correct position, or you will fail and have to start over.
 
-[Click here](public/index.html) to begin!
+[Click here](https://tanukitown.github.io/DSR-sim/public/index.html) to begin!
 
 ## How to Use
 
