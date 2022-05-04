@@ -2,12 +2,17 @@ html, body {
 	position: relative;
 	width: 100%;
 	height: 100%;
+  max-height: 100vh;
 }
 
 body {
 	margin: 0;
-	padding: 8px;
+	padding: 1rem;
 	box-sizing: border-box;
+}
+
+[class*='col-'] {
+  max-height: 100%;
 }
 
 .icon-sizing {
@@ -42,8 +47,4 @@ body {
 .nidstinien-arena {
   width: 30rem;
   height: 30rem;
-}
-
-.timeline {
-  text-align: right;
 }

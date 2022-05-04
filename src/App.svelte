@@ -3,7 +3,6 @@
     Button,
 		Card,
 		CardBody,
-    CardHeader,
     Col,
 		Container,
     Dropdown,
@@ -23,18 +22,18 @@
   <Row cols={{ lg: 2, md: 2, sm: 1}} class="h-100">
     <Col lg="9" sm="1">
       <Card color="dark" class="h-100">
-        <CardHeader>
-          <h1 class="text-center">P3 - Nidstinien</h1>
-          <Dropdown class="position-absolute top-0 m-3">
+        <div class="card-header d-flex justify-content-between">
+          <Dropdown class="my-auto">
             <DropdownToggle caret>Choose Phase</DropdownToggle>
             <DropdownMenu end>
               <DropdownItem>P3 - Nidstinien</DropdownItem>
               <DropdownItem disabled>That's all I got to be tbh</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Button color="primary" id="nextStepButton" class="position-absolute top-0 end-0 m-3">Next Step</Button>
-        </CardHeader>
-        <CardBody id="moveableBound">
+          <h1 class="text-center">P3 - Nidstinien</h1>
+          <Button color="primary" id="nextStepButton" class="my-auto">Next Step</Button>
+        </div>
+        <CardBody>
           <RoleIcons />
           <Wyrmholes />
         </CardBody>

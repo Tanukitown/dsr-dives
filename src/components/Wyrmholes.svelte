@@ -3,15 +3,28 @@
 
 
   let step = 1;
+  let inLineGroups = { first: [], second: [], third: [] };
   const estinien = 'images/estinien.png';
+  interface InLineGroups {
+    first:  HTMLElement [];
+    second: HTMLElement [];
+    third:  HTMLElement [];
+  }
 
   const getMultipleRandom = (arr: Array<HTMLElement>, num: number) => {
-  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, num);
+  }
 
-  return shuffled.slice(0, num);
-}
+  const createDebuff = (img: string, alt: string) => {
+    const elem = document.createElement("img");
+    elem.src = img;
+    elem.setAttribute('class', 'debuff-sizing');
+    elem.setAttribute('alt', alt);
+    return elem;
+  }
 
-  const stepOne = () => {
+  const stepTwo = (): InLineGroups => {
     let party = [
       document.getElementById('tankOne'),
       document.getElementById('tankTwo'),
@@ -23,59 +36,58 @@
       document.getElementById('physRanged')
     ];
 
-    const createDebuff = (img: string) => {
-      const elem = document.createElement("img");
-      elem.src = img;
-      elem.setAttribute('class', 'debuff-sizing');
-      elem.setAttribute('alt', 'first in line debuff');
-      return elem;
-    }
-
     const firstMarkers = getMultipleRandom(party, 3);
     party = party.filter( ( el ) => !firstMarkers.includes( el ) );
     const secondMarkers = getMultipleRandom(party, 2);
     party = party.filter( ( el ) => !secondMarkers.includes( el ) );
 
     firstMarkers.forEach(char => {
-      char.append(createDebuff('images/First_In_Line.png'));
-    })
-    if ((Math.floor(Math.random() * 2)) === 0) {
-      firstMarkers[0].append(createDebuff('images/High_Jump_target.png'));
-      firstMarkers[1].append(createDebuff('images/Elusive_Jump_target.png'));
-      firstMarkers[2].append(createDebuff('images/Spineshatter_Dive_target.png'));
-    } else {
-      firstMarkers.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.png'));
-      });
-    }
+      char.append(createDebuff('images/First_In_Line.png', 'first in line debuff'));
+    });
     secondMarkers.forEach(char => {
-      char.append(createDebuff('images/Second_In_Line.png'));
-    })
-    if ((Math.floor(Math.random() * 2)) === 0) {
-      secondMarkers[0].append(createDebuff('images/Elusive_Jump_target.png'));
-      secondMarkers[1].append(createDebuff('images/Spineshatter_Dive_target.png'));
-    } else {
-      secondMarkers.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.png'));
-      });
-    }
+      char.append(createDebuff('images/Second_In_Line.png', 'second in line debuff'));
+    });
     party.forEach(char => {
-      char.append(createDebuff('images/Third_In_Line.png'));
-    })
-    if ((Math.floor(Math.random() * 2)) === 0) {
-      party[0].append(createDebuff('images/High_Jump_target.png'));
-      party[1].append(createDebuff('images/Elusive_Jump_target.png'));
-      party[2].append(createDebuff('images/Spineshatter_Dive_target.png'));
-    } else {
-      party.forEach(char => {
-        char.append(createDebuff('images/High_Jump_target.png'));
-      });
+      char.append(createDebuff('images/Third_In_Line.png', 'third in line debuff'));
+    });
+
+    return {
+      first: firstMarkers,
+      second: secondMarkers,
+      third: party
     }
   };
 
-  const stepTwo = () => {
-    //
-  }
+  const stepThree = (groups: InLineGroups) => {
+    if ((Math.floor(Math.random() * 2)) === 0) {
+      groups.first[0].append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+      groups.first[1].append(createDebuff('images/Elusive_Jump_target.png', 'elusive jump target'));
+      groups.first[2].append(createDebuff('images/Spineshatter_Dive_target.png', 'spineshatter dive target'));
+    } else {
+      groups.first.forEach(char => {
+        char.append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+      });
+    }
+
+    if ((Math.floor(Math.random() * 2)) === 0) {
+      groups.second[0].append(createDebuff('images/Elusive_Jump_target.png', 'elusive jump target'));
+      groups.second[1].append(createDebuff('images/Spineshatter_Dive_target.png', 'spineshatter dive target'));
+    } else {
+      groups.second.forEach(char => {
+        char.append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+      });
+    }
+
+    if ((Math.floor(Math.random() * 2)) === 0) {
+      groups.third[0].append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+      groups.third[1].append(createDebuff('images/Elusive_Jump_target.png', 'elusive jump target'));
+      groups.third[2].append(createDebuff('images/Spineshatter_Dive_target.png', 'spinehsatter dive target'));
+    } else {
+      groups.third.forEach(char => {
+        char.append(createDebuff('images/High_Jump_target.png', 'high jump target'));
+      });
+    }
+  };
 
   const initEvents = () => {
     document.getElementById('nextStepButton').addEventListener('click', () => {
@@ -85,17 +97,22 @@
       currentStep.removeAttribute('id');
       nextStep.className = 'table-secondary';
       nextStep.id = 'currentStep';
-      step = step + 1;
+      step += 1;
       switch (step) {
         case 2:
-          stepTwo();
+          inLineGroups = stepTwo();
+          break;
+        case 3:
+          stepThree(inLineGroups);
+          break;
+        default:
+          break;
       }
     })
   };
 
   onMount(() => {
     initEvents();
-    stepOne();
   });
 </script>
 
