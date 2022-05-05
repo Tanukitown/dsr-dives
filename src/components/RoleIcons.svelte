@@ -90,50 +90,51 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <div class="d-flex justify-content-between position-absolute start-0 w-100">
-  <div id="tankOne" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div id="tankOne" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={tankIcon} alt="tank icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div  id="tankTwo" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div  id="tankTwo" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={tankIcon} alt="tank icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div  id="healerOne" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div  id="healerOne" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={healerIcon} alt="healer icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div  id="healerTwo" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div  id="healerTwo" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={healerIcon} alt="healer icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div  id="meleeOne" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div  id="meleeOne" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={meleeIcon} alt="melee icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div id="meleeTwo" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div id="meleeTwo" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={meleeIcon} alt="melee icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div id="magicRanged" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div id="magicRanged" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={magicRangedIcon} alt="magic ranged icon" class='icon-sizing' />
   </div>
 
   <div class="mt-2" />
 
-  <div id="physRanged" class="character-with-debuffs text-center" on:click={setTarget}>
+  <div id="physRanged" class="position-relative character-with-debuffs text-center" on:mouseover={setTarget}>
     <img src={physRangedIcon} alt="phys ranged icon" class='icon-sizing' />
   </div>
 </div>

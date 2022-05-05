@@ -1,19 +1,47 @@
 <script lang="ts">
   import { onMount } from "svelte/internal";
+  import { Modal } from 'sveltestrap';
 
 
-  let step = 1;
-  let inLineGroups = { first: [], second: [], third: [] };
-  const boss = 'images/DefaultNpc.png';
   interface InLineGroups {
     first:  HTMLElement [];
     second: HTMLElement [];
     third:  HTMLElement [];
   }
+  interface Coordinate {
+    x: number;
+    y: number;
+  }
+  interface TowerPositions {
+    first: Coordinate [];
+    second: Coordinate [];
+    third: Coordinate [];
+  }
+
+  let step = 1;
+  let inLineGroups = { first: [], second: [], third: [] };
+  let towerPositions = { first: [], second: [], third: [] };
+  let soakFailOpen = false;
+  const toggleSoakFail = () => (soakFailOpen = !soakFailOpen);
+  const boss = 'images/DefaultNpc.png';
 
   const getMultipleRandom = (arr: Array<HTMLElement>, num: number) => {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, num);
+  }
+
+  const range = (start: number, end: number) => {
+    let myArray = [];
+    for (var i = start; i <= end; i += 1) {
+      myArray.push(i);
+    }
+    return myArray;
+  };
+
+  const failStep = () => {
+    const currentStep = document.getElementById('currentStep');
+    currentStep.className = "table-danger";
+    document.getElementById('nextStepButton').setAttribute('disabled', 'true');
   }
 
   const createDebuff = (img: string, alt: string) => {
@@ -90,12 +118,14 @@
   };
 
   const stepFour = () => {
+    const castName = Math.floor(Math.random() * 2) === 0 ? 'Lash and Gnash' : 'Gnash and Lash';
+
     const elem = document.createElement('div')
     elem.className = 'boss-castbar'
 
     const label = document.createElement('label')
     label.setAttribute('for', 'castBarContainer')
-    label.textContent = 'Lash and Gnash'
+    label.textContent = castName
 
     const castBarContainer = document.createElement('div')
     castBarContainer.className = 'progress';
@@ -116,11 +146,140 @@
     document.getElementById('bossContainer').append(elem)
   };
 
+  const stepFive = (groups: InLineGroups) => {
+    document.getElementById('nextStepButton').setAttribute('disabled', 'true');
+    const sharedAoeTargets = [...groups.second, ...groups.third];
+    const target = Math.floor(Math.random() * 4);
+
+    const aoeContainer = document.createElement('div');
+    aoeContainer.className = 'position-absolute top-50 left-50';
+    aoeContainer.setAttribute('style', 'transform: translate(-37%, -57%); z-index: -1;');
+
+    const sharedAoe = document.createElement('img');
+    sharedAoe.src = 'images/Stack-Marker.gif';
+    sharedAoe.setAttribute('alt', 'Eye of the Tyrant');
+    sharedAoe.className = 'eye-of-the-tyrant';
+    aoeContainer.append(sharedAoe);
+
+    const aoeTarget = sharedAoeTargets[target]
+    aoeTarget.append(aoeContainer);
+
+    const aoePos = aoeContainer.getBoundingClientRect();
+    const aoeX = Math.round(aoePos.x);
+    const aoeY = Math.round(aoePos.y);
+    const safeX = range(aoeX - 100, aoeX + 100)
+    const safeY = range(aoeY - 100, aoeY + 100)
+    const soakers = [
+      groups.second[0].getBoundingClientRect(),
+      groups.second[1].getBoundingClientRect(),
+      groups.third[0].getBoundingClientRect(),
+      groups.third[1].getBoundingClientRect(),
+      groups.third[2].getBoundingClientRect(),
+    ];
+
+    const highJumpContainer = () => {
+      const elem = document.createElement('div');
+      elem.className = 'position-absolute top-50 left-50';
+      elem.setAttribute('style', 'transform: translate(-30%, -60%); z-index: -1;');
+      return elem;
+    };
+
+    const elusiveJumpContainer = () => {
+      const elem = document.createElement('div');
+      elem.className = 'position-absolute top-50 left-50';
+      elem.setAttribute('style', 'transform: translate(-30%, 80%); z-index: -1;');
+      return elem;
+    };
+
+    const spineshatterDiveContainer = () => {
+      const elem = document.createElement('div');
+      elem.className = 'position-absolute top-50 left-50';
+      elem.setAttribute('style', 'transform: translate(-30%, -180%); z-index: -1;');
+      return elem;
+    }
+
+    const diveFromGrace = () => {
+      const elem = document.createElement('img');
+      elem.src = 'images/Target-Circle.gif';
+      elem.alt = 'dive from grace';
+      elem.className = 'dive-circle';
+      return elem;
+    };
+
+    let positions = []
+
+    groups.first.forEach((char: HTMLElement) => {
+      const highJump = highJumpContainer();
+      highJump.append(diveFromGrace());
+      if ((char.lastElementChild as HTMLImageElement).alt === 'high jump target') {
+        char.append(highJump);
+
+        const jumpPos = highJump.getBoundingClientRect();
+        positions.push({ x: jumpPos.x, y: jumpPos.y })
+      }
+      if ((char.lastElementChild as HTMLImageElement).alt === 'elusive jump target') {
+        const elusiveJump = elusiveJumpContainer();
+        elusiveJump.append(diveFromGrace());
+        char.append(elusiveJump);
+
+        const jumpPos = elusiveJump.getBoundingClientRect();
+        positions.push({ x: jumpPos.x, y: jumpPos.y })
+        char.removeChild(char.lastChild);
+        char.append(highJump);
+      }
+      if ((char.lastElementChild as HTMLImageElement).alt === 'spineshatter dive target') {
+        const spineshatterDive = spineshatterDiveContainer();
+        spineshatterDive.append(diveFromGrace());
+        char.append(spineshatterDive);
+
+        const jumpPos = spineshatterDive.getBoundingClientRect();
+        positions.push({ x: jumpPos.x, y: jumpPos.y })
+        char.removeChild(char.lastChild);
+        char.append(highJump);
+      }
+    });
+
+    if (!safeX.includes(Math.round(soakers[0].x)) || !(safeY.includes(Math.round(soakers[0].y)))) {
+      failStep();
+      toggleSoakFail();
+      return;
+    }
+    if (!safeX.includes(Math.round(soakers[1].x)) || !(safeY.includes(Math.round(soakers[1].y)))) {
+      failStep();
+      toggleSoakFail();
+      return;
+    }
+    if (!safeX.includes(Math.round(soakers[2].x)) || !(safeY.includes(Math.round(soakers[2].y)))) {
+      failStep();
+      toggleSoakFail();
+      return;
+    }
+    if (!safeX.includes(Math.round(soakers[3].x)) || !(safeY.includes(Math.round(soakers[3].y)))) {
+      failStep();
+      toggleSoakFail();
+      return;
+    }
+    if (!safeX.includes(Math.round(soakers[4].x)) || !(safeY.includes(Math.round(soakers[4].y)))) {
+      failStep();
+      toggleSoakFail();
+      return;
+    }
+    return {
+      first: positions,
+      second: [],
+      third: []
+    };
+  }
+
+  const stepSix = (towers: TowerPositions) => {
+    //
+  };
+
   const initEvents = () => {
     document.getElementById('nextStepButton').addEventListener('click', () => {
       const currentStep = document.getElementById('currentStep');
       const nextStep = currentStep.nextElementSibling;
-      currentStep.className = "table-success";
+      if (currentStep.className != 'table-danger') currentStep.className = "table-success";
       currentStep.removeAttribute('id');
       nextStep.className = 'table-secondary';
       nextStep.id = 'currentStep';
@@ -135,6 +294,11 @@
         case 4:
           stepFour();
           break;
+        case 5:
+          towerPositions = stepFive(inLineGroups);
+          break;
+        case 6:
+          stepSix(towerPositions);
         default:
           break;
       }
@@ -151,3 +315,7 @@
     <img src={boss} alt="boss icon" class='boss-sizing face-north' />
   </div>
 </div>
+
+<Modal body header="Eye of the Tyrant soak failed!" isOpen={soakFailOpen} toggle={toggleSoakFail} class="modal-lg modal-dialog-centered">
+  <p>One or more players were not in the <code>Eye of the Tyrant</code> soak! When Nidhogg starts casting <code>Lash and Gnash/Gnash and Lash</code> all players that are not marked with the first <code>Dive from Grace</code> <img src="images/First_in_Line.png" class="debuff-sizing" alt="first in line" /> should stack in preparation for this shared AOE.</p>
+</Modal>
