@@ -1,22 +1,18 @@
 <script lang="ts">
   import { onMount } from "svelte/internal";
   import { Modal } from 'sveltestrap';
+  import {
+    getMultipleRandom,
+    range,
+    createDebuff,
+    highJumpContainer,
+    elusiveJumpContainer,
+    spineshatterDiveContainer,
+    diveFromGrace
+  } from './scripts/utils';
 
+  import type { InLineGroups, TowerPositions } from '../types';
 
-  interface InLineGroups {
-    first:  HTMLElement [];
-    second: HTMLElement [];
-    third:  HTMLElement [];
-  }
-  interface Coordinate {
-    x: number;
-    y: number;
-  }
-  interface TowerPositions {
-    first: Coordinate [];
-    second: Coordinate [];
-    third: Coordinate [];
-  }
 
   let step = 1;
   let inLineGroups = { first: [], second: [], third: [] };
@@ -25,31 +21,10 @@
   const toggleSoakFail = () => (soakFailOpen = !soakFailOpen);
   const boss = 'images/DefaultNpc.png';
 
-  const getMultipleRandom = (arr: Array<HTMLElement>, num: number) => {
-    const shuffled = [...arr].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, num);
-  }
-
-  const range = (start: number, end: number) => {
-    let myArray = [];
-    for (var i = start; i <= end; i += 1) {
-      myArray.push(i);
-    }
-    return myArray;
-  };
-
   const failStep = () => {
     const currentStep = document.getElementById('currentStep');
     currentStep.className = "table-danger";
     document.getElementById('nextStepButton').setAttribute('disabled', 'true');
-  }
-
-  const createDebuff = (img: string, alt: string) => {
-    const elem = document.createElement("img");
-    elem.src = img;
-    elem.setAttribute('class', 'debuff-sizing');
-    elem.setAttribute('alt', alt);
-    return elem;
   }
 
   const stepTwo = (): InLineGroups => {
@@ -177,35 +152,6 @@
       groups.third[2].getBoundingClientRect(),
     ];
 
-    const highJumpContainer = () => {
-      const elem = document.createElement('div');
-      elem.className = 'position-absolute top-50 left-50';
-      elem.setAttribute('style', 'transform: translate(-30%, -60%); z-index: -1;');
-      return elem;
-    };
-
-    const elusiveJumpContainer = () => {
-      const elem = document.createElement('div');
-      elem.className = 'position-absolute top-50 left-50';
-      elem.setAttribute('style', 'transform: translate(-30%, 80%); z-index: -1;');
-      return elem;
-    };
-
-    const spineshatterDiveContainer = () => {
-      const elem = document.createElement('div');
-      elem.className = 'position-absolute top-50 left-50';
-      elem.setAttribute('style', 'transform: translate(-30%, -180%); z-index: -1;');
-      return elem;
-    }
-
-    const diveFromGrace = () => {
-      const elem = document.createElement('img');
-      elem.src = 'images/Target-Circle.gif';
-      elem.alt = 'dive from grace';
-      elem.className = 'dive-circle';
-      return elem;
-    };
-
     let positions = []
 
     groups.first.forEach((char: HTMLElement) => {
@@ -216,6 +162,12 @@
 
         const jumpPos = highJump.getBoundingClientRect();
         positions.push({ x: jumpPos.x, y: jumpPos.y })
+        char.removeChild(char.children[1]);
+        char.removeChild(char.children[1]);
+        char.append(createDebuff('images/Fire_Resistance_Down.png', 'fire resistance down'));
+        setTimeout(() => {
+          highJump.remove();
+        }, 3000)
       }
       if ((char.lastElementChild as HTMLImageElement).alt === 'elusive jump target') {
         const elusiveJump = elusiveJumpContainer();
@@ -224,8 +176,14 @@
 
         const jumpPos = elusiveJump.getBoundingClientRect();
         positions.push({ x: jumpPos.x, y: jumpPos.y })
+        char.removeChild(char.children[1]);
+        char.removeChild(char.children[1]);
         char.removeChild(char.lastChild);
         char.append(highJump);
+        char.append(createDebuff('images/Fire_Resistance_Down.png', 'fire resistance down'));
+        setTimeout(() => {
+          highJump.remove();
+        }, 3000)
       }
       if ((char.lastElementChild as HTMLImageElement).alt === 'spineshatter dive target') {
         const spineshatterDive = spineshatterDiveContainer();
@@ -234,8 +192,14 @@
 
         const jumpPos = spineshatterDive.getBoundingClientRect();
         positions.push({ x: jumpPos.x, y: jumpPos.y })
+        char.removeChild(char.children[1]);
+        char.removeChild(char.children[1]);
         char.removeChild(char.lastChild);
         char.append(highJump);
+        char.append(createDebuff('images/Fire_Resistance_Down.png', 'fire resistance down'));
+        setTimeout(() => {
+          highJump.remove();
+        }, 3000)
       }
     });
 
@@ -264,6 +228,11 @@
       toggleSoakFail();
       return;
     }
+
+    setTimeout(() => {
+          aoeContainer.remove();
+        }, 3000)
+
     return {
       first: positions,
       second: [],
@@ -271,7 +240,7 @@
     };
   }
 
-  const stepSix = (towers: TowerPositions) => {
+  const stepSix = () => {
     //
   };
 
@@ -298,7 +267,7 @@
           towerPositions = stepFive(inLineGroups);
           break;
         case 6:
-          stepSix(towerPositions);
+          stepSix();
         default:
           break;
       }
