@@ -58,6 +58,11 @@ body {
   z-index: 69 !important;
 }
 
+.world-marker {
+  width: 4rem;
+  z-index: 1 !important;
+}
+
 .dive-circle {
   width: 10em;
   height: 10rem;
