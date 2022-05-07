@@ -5,7 +5,7 @@ export const getMultipleRandom = (arr: Array<HTMLElement>, num: number) => {
 
 export const range = (start: number, end: number) => {
   let myArray = [];
-  for (var i = start; i <= end; i += 1) {
+  for (let i = start; i <= end; i += 1) {
     myArray.push(i);
   }
   return myArray;
@@ -42,7 +42,7 @@ export const spineshatterDiveContainer = () => {
 
 export const diveFromGrace = () => {
   const elem = document.createElement('img');
-  elem.src = 'images/Target-Circle.gif';
+  elem.src = 'images/CircleAoE.gif';
   elem.alt = 'dive from grace';
   elem.className = 'dive-circle';
   return elem;

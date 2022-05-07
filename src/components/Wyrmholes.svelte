@@ -11,7 +11,7 @@
     diveFromGrace
   } from './scripts/utils';
 
-  import type { InLineGroups, TowerPositions } from '../types';
+  import type { InLineGroups, Coordinate, TowerPositions } from '../types';
 
 
   let step = 1;
@@ -19,6 +19,8 @@
   let towerPositions = { first: [], second: [], third: [] };
   let soakFailOpen = false;
   const toggleSoakFail = () => (soakFailOpen = !soakFailOpen);
+  let diveOneFailOpen = false;
+  const toggleDiveOneFail = () => (diveOneFailOpen = !diveOneFailOpen);
   const boss = 'images/DefaultNpc.png';
 
   const failStep = () => {
@@ -152,9 +154,39 @@
       groups.third[2].getBoundingClientRect(),
     ];
 
-    let positions = []
+    let positions = [];
+    let timeouts = [];
+    let unsafePosOneX: number [];
+    let unsafePosOneY: number [];
+    let unsafePosTwoX: number [];
+    let unsafePosTwoY: number [];
+    let unsafePosThreeX: number [];
+    let unsafePosThreeY: number [];
 
-    groups.first.forEach((char: HTMLElement) => {
+    const makeUnsafeDivePos = (i: number, divePos: DOMRect) => {
+      switch (i) {
+        case 0:
+          const diveOneX = Math.round(divePos.x);
+          const diveOneY = Math.round(divePos.y);
+          unsafePosOneX = range(diveOneX - 50, diveOneX + 50);
+          unsafePosOneY = range(diveOneY - 50, diveOneY + 50);
+          break;
+        case 1:
+          const diveTwoX = Math.round(divePos.x);
+          const diveTwoY = Math.round(divePos.y);
+          unsafePosTwoX = range(diveTwoX - 50, diveTwoX + 50);
+          unsafePosTwoY = range(diveTwoY - 50, diveTwoY + 50);
+          break;
+        case 2:
+          const diveThreeX = Math.round(divePos.x);
+          const diveThreeY = Math.round(divePos.y);
+          unsafePosThreeX = range(diveThreeX - 50, diveThreeX + 50);
+          unsafePosThreeY = range(diveThreeY - 50, diveThreeY + 50);
+          break;
+      }
+    };
+
+    groups.first.forEach((char, i) => {
       const highJump = highJumpContainer();
       highJump.append(diveFromGrace());
       if ((char.lastElementChild as HTMLImageElement).alt === 'high jump target') {
@@ -165,9 +197,13 @@
         char.removeChild(char.children[1]);
         char.removeChild(char.children[1]);
         char.append(createDebuff('images/Fire_Resistance_Down.png', 'fire resistance down'));
-        setTimeout(() => {
+
+        const divePos = highJump.getBoundingClientRect();
+        makeUnsafeDivePos(i, divePos);
+
+        timeouts.push(setTimeout(() => {
           highJump.remove();
-        }, 3000)
+        }, 3000));
       }
       if ((char.lastElementChild as HTMLImageElement).alt === 'elusive jump target') {
         const elusiveJump = elusiveJumpContainer();
@@ -181,9 +217,13 @@
         char.removeChild(char.lastChild);
         char.append(highJump);
         char.append(createDebuff('images/Fire_Resistance_Down.png', 'fire resistance down'));
-        setTimeout(() => {
+
+        const divePos = highJump.getBoundingClientRect();
+        makeUnsafeDivePos(i, divePos);
+
+        timeouts.push(setTimeout(() => {
           highJump.remove();
-        }, 3000)
+        }, 3000));
       }
       if ((char.lastElementChild as HTMLImageElement).alt === 'spineshatter dive target') {
         const spineshatterDive = spineshatterDiveContainer();
@@ -197,41 +237,104 @@
         char.removeChild(char.lastChild);
         char.append(highJump);
         char.append(createDebuff('images/Fire_Resistance_Down.png', 'fire resistance down'));
-        setTimeout(() => {
+
+        const divePos = highJump.getBoundingClientRect();
+        makeUnsafeDivePos(i, divePos);
+
+        timeouts.push(setTimeout(() => {
           highJump.remove();
-        }, 3000)
+        }, 3000));
       }
     });
 
-    if (!safeX.includes(Math.round(soakers[0].x)) || !(safeY.includes(Math.round(soakers[0].y)))) {
-      failStep();
-      toggleSoakFail();
-      return;
-    }
-    if (!safeX.includes(Math.round(soakers[1].x)) || !(safeY.includes(Math.round(soakers[1].y)))) {
-      failStep();
-      toggleSoakFail();
-      return;
-    }
-    if (!safeX.includes(Math.round(soakers[2].x)) || !(safeY.includes(Math.round(soakers[2].y)))) {
-      failStep();
-      toggleSoakFail();
-      return;
-    }
-    if (!safeX.includes(Math.round(soakers[3].x)) || !(safeY.includes(Math.round(soakers[3].y)))) {
-      failStep();
-      toggleSoakFail();
-      return;
-    }
-    if (!safeX.includes(Math.round(soakers[4].x)) || !(safeY.includes(Math.round(soakers[4].y)))) {
-      failStep();
-      toggleSoakFail();
-      return;
+    for (let i = 0; i < groups.first.length; i++) {
+      switch (i) {
+        case 0:
+          const diveCharOne = groups.first[i].getBoundingClientRect();
+          if (unsafePosTwoX.includes(Math.round(diveCharOne.x)) && unsafePosTwoY.includes(Math.round(diveCharOne.y))) {
+            console.log('dive one was in dive two')
+            failStep();
+            toggleDiveOneFail();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            return;
+          }
+          if (unsafePosThreeX.includes(Math.round(diveCharOne.x)) && unsafePosThreeY.includes(Math.round(diveCharOne.y))) {
+            console.log('dive one was in dive three')
+            failStep();
+            toggleDiveOneFail();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            return;
+          }
+          break;
+        case 1:
+          const diveCharTwo = groups.first[i].getBoundingClientRect();
+          if (unsafePosOneX.includes(Math.round(diveCharTwo.x)) && unsafePosOneY.includes(Math.round(diveCharTwo.y))) {
+            console.log('dive two was in dive one')
+            failStep();
+            toggleDiveOneFail();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            return;
+          }
+          if (unsafePosThreeX.includes(Math.round(diveCharTwo.x)) && unsafePosThreeY.includes(Math.round(diveCharTwo.y))) {
+            console.log('dive two was in dive three')
+            failStep();
+            toggleDiveOneFail();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            return;
+          }
+          break;
+        case 2:
+          const diveCharThree = groups.first[i].getBoundingClientRect();
+          if (unsafePosOneX.includes(Math.round(diveCharThree.x)) && unsafePosOneY.includes(Math.round(diveCharThree.y))) {
+            console.log('dive three was in dive one')
+            failStep();
+            toggleDiveOneFail();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            return;
+          }
+          if (unsafePosTwoX.includes(Math.round(diveCharThree.x)) && unsafePosTwoY.includes(Math.round(diveCharThree.y))) {
+            console.log('dive three was in dive two')
+            failStep();
+            toggleDiveOneFail();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            return;
+          }
+          break;
+        default:
+          break;
+      }
     }
 
+    for (let i = 0; i < soakers.length; i++) {
+      const soaker = soakers[i];
+      if (unsafePosOneX.includes(Math.round(soaker.x)) && unsafePosOneY.includes(Math.round(soaker.y))) {
+        failStep();
+        toggleDiveOneFail();
+        timeouts.forEach(timeout => clearTimeout(timeout));
+        return;
+      }
+      if (unsafePosTwoX.includes(Math.round(soaker.x)) && unsafePosTwoY.includes(Math.round(soaker.y))) {
+        failStep();
+        toggleDiveOneFail();
+        timeouts.forEach(timeout => clearTimeout(timeout));
+        return;
+      }
+      if (unsafePosThreeX.includes(Math.round(soaker.x)) && unsafePosThreeY.includes(Math.round(soaker.y))) {
+        failStep();
+        toggleDiveOneFail();
+        timeouts.forEach(timeout => clearTimeout(timeout));
+        return;
+      }
+      if (!safeX.includes(Math.round(soaker.x)) || !(safeY.includes(Math.round(soaker.y)))) {
+        failStep();
+        toggleSoakFail();
+        return;
+      }
+    };
+
     setTimeout(() => {
-          aoeContainer.remove();
-        }, 3000)
+      aoeContainer.remove();
+    }, 3000);
 
     return {
       first: positions,
@@ -287,4 +390,8 @@
 
 <Modal body header="Eye of the Tyrant soak failed!" isOpen={soakFailOpen} toggle={toggleSoakFail} class="modal-lg modal-dialog-centered">
   <p>One or more players were not in the <code>Eye of the Tyrant</code> soak! When Nidhogg starts casting <code>Lash and Gnash/Gnash and Lash</code> all players that are not marked with the first <code>Dive from Grace</code> <img src="images/First_in_Line.png" class="debuff-sizing" alt="first in line" /> should stack in preparation for this shared AOE.</p>
+</Modal>
+
+<Modal body header="Dive from Grace failed!" isOpen={diveOneFailOpen} toggle={toggleDiveOneFail} class="modal-lg modal-dialog-centered">
+  <p>A player other than the target of one of the first <code>Dive from Grace</code> <img src="images/First_in_Line.png" class="debuff-sizing" alt="first in line" /> debuffs was hit by the dive aoe! This knocks back players, which could cause a death, but also applies <code>Fire Resistance Down</code> <img src="images/Fire_Resistance_Down.png" class="debuff-sizing" alt="fire resistance down" /> that makes a player unable to soak a tower. If two dive targets hit each other they will also just die.</p>
 </Modal>

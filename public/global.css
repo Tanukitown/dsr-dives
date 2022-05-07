@@ -33,7 +33,7 @@ body {
   position: absolute;
   width: 15rem;
   top: 0;
-  start: 50;
+  left: 50;
   text-align: left;
   z-index: 1000;
 }
@@ -59,6 +59,6 @@ body {
 }
 
 .dive-circle {
-  width: 10rem;
+  width: 10em;
   height: 10rem;
 }

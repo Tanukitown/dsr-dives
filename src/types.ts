@@ -4,7 +4,7 @@ export type InLineGroups = {
   third:  HTMLElement [];
 }
 
-interface Coordinate {
+export type Coordinate = {
   x: number;
   y: number;
 }
