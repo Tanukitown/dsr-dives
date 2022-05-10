@@ -47,3 +47,25 @@ export const diveFromGrace = () => {
   elem.className = 'dive-circle';
   return elem;
 };
+
+export const makeTowerAtPos = (x: number, y: number) => {
+  const elem = document.createElement('div');
+  elem.className = 'position-absolute';
+  elem.setAttribute('style', `top: ${y}px; left: ${x}px; transform: translate(-18%, -12%);`)
+
+  const tower = document.createElement('img');
+  tower.src = 'images/Target-Circle.gif';
+  tower.className = 'dive-circle tower-soaks';
+  elem.append(tower);
+
+  document.getElementById('arena').append(elem);
+}
+
+export const isInside = (target: DOMRect, subject: DOMRect) => {
+  const x1 = target.left;
+  const y1 = target.top;
+  const x2 = target.right;
+  const y2 = target.bottom;
+
+  return ((subject.left > x1 && subject.left < x2) && (subject.bottom > y1 && subject.bottom < y2));
+}

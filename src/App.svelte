@@ -33,7 +33,7 @@
           <h1 class="text-center">P3 - Nidstinien</h1>
           <Button color="primary" id="nextStepButton" class="my-auto">Next Step</Button>
         </div>
-        <CardBody>
+        <CardBody id="arena">
           <RoleIcons />
           <Wyrmholes />
         </CardBody>

@@ -29,7 +29,7 @@ body {
   height: 15rem;
 }
 
-.boss-castbar {
+#bossCastbar {
   position: absolute;
   width: 15rem;
   top: 0;
@@ -55,6 +55,7 @@ body {
 
 .character-with-debuffs {
   width: 4rem;
+  height: 3rem;
   z-index: 69 !important;
 }
 
