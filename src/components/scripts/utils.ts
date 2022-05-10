@@ -11,10 +11,10 @@ export const range = (start: number, end: number) => {
   return myArray;
 };
 
-export const createDebuff = (img: string, alt: string) => {
+export const createDebuff = (img: string, alt: string, c='') => {
   const elem = document.createElement("img");
   elem.src = img;
-  elem.setAttribute('class', 'debuff-sizing');
+  elem.setAttribute('class', ('debuff-sizing ' + c));
   elem.setAttribute('alt', alt);
   return elem;
 };

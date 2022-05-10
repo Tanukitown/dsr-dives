@@ -44,6 +44,10 @@
   const toggleDiveThreeFail = () => (diveThreeFailOpen = !diveThreeFailOpen);
   let thirdTowerSoakFailOpen = false;
   const toggleThirdTowerSoakFail = () => (thirdTowerSoakFailOpen = !thirdTowerSoakFailOpen);
+  let geirskogulsBaitedOpen = false;
+  const geirskogulsBaited = () => (geirskogulsBaitedOpen = !geirskogulsBaitedOpen);
+  let geirskogulsGoOffOpen = false;
+  const geirskogulsGoOff = () => (geirskogulsGoOffOpen = !geirskogulsGoOffOpen);
   let notFinishedOpen = false;
   const toggleNotFinished = () => (notFinishedOpen = !notFinishedOpen);
 
@@ -80,7 +84,7 @@
     switch (castName) {
       case 'Gnash and Lash':
         const gnash = document.createElement('img');
-        gnash.src = 'images/CircleAoe.gif';
+        gnash.src = 'images/CircleAoE.gif';
         gnash.alt = 'gnash';
         elem.append(gnash);
         bossContainer.append(elem);
@@ -138,7 +142,7 @@
     switch (castName) {
       case 'Lash and Gnash':
         const gnash = document.createElement('img');
-        gnash.src = 'images/CircleAoe.gif';
+        gnash.src = 'images/CircleAoE.gif';
         gnash.alt = 'gnash';
         elem.append(gnash);
         bossContainer.append(elem);
@@ -217,31 +221,31 @@
    */
   const stepThree = () => {
     if ((Math.floor(Math.random() * 2)) === 0) {
-      inLineGroups.first[0].append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
-      inLineGroups.first[1].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target'));
-      inLineGroups.first[2].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spineshatter dive target'));
+      inLineGroups.first[0].append(createDebuff('images/High_Jump_Target.png', 'high jump target', 'high-jump'));
+      inLineGroups.first[1].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target', 'elusive-jump'));
+      inLineGroups.first[2].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spineshatter dive target', 'spineshatter-dive'));
     } else {
       inLineGroups.first.forEach(char => {
-        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
+        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target', 'high-jump'));
       });
     }
 
     if ((Math.floor(Math.random() * 2)) === 0) {
-      inLineGroups.second[0].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target'));
-      inLineGroups.second[1].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spineshatter dive target'));
+      inLineGroups.second[0].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target', 'elusive-jump'));
+      inLineGroups.second[1].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spineshatter dive target', 'spineshatter-dive'));
     } else {
       inLineGroups.second.forEach(char => {
-        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
+        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target', 'high-jump'));
       });
     }
 
     if ((Math.floor(Math.random() * 2)) === 0) {
-      inLineGroups.third[0].append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
-      inLineGroups.third[1].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target'));
-      inLineGroups.third[2].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spinehsatter dive target'));
+      inLineGroups.third[0].append(createDebuff('images/High_Jump_Target.png', 'high jump target', 'high-jump'));
+      inLineGroups.third[1].append(createDebuff('images/Elusive_Jump_Target.png', 'elusive jump target', 'elusive-jump'));
+      inLineGroups.third[2].append(createDebuff('images/Spineshatter_Dive_Target.png', 'spinehsatter dive target', 'spineshatter-dive'));
     } else {
       inLineGroups.third.forEach(char => {
-        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target'));
+        char.append(createDebuff('images/High_Jump_Target.png', 'high jump target', 'high-jump'));
       });
     }
   };
@@ -299,8 +303,8 @@
     aoeTarget.append(aoeContainer);
 
     const aoePos = sharedAoe.getBoundingClientRect();
-    aoePos.width = 256;
-    aoePos.height = 256;
+    aoePos.width = 260;
+    aoePos.height = 260;
     const soakers = [
       inLineGroups.second[0].querySelector('.icon-sizing').getBoundingClientRect(),
       inLineGroups.second[1].querySelector('.icon-sizing').getBoundingClientRect(),
@@ -332,7 +336,7 @@
     inLineGroups.first.forEach((char, i) => {
       const highJump = highJumpContainer();
       highJump.append(diveFromGrace());
-      if ((char.lastElementChild as HTMLImageElement).alt === 'high jump target') {
+      if (char.querySelector('.high-jump')) {
         char.append(highJump);
 
         const jumpPos = highJump.getBoundingClientRect();
@@ -351,7 +355,7 @@
           makeTowerAtPos(jumpPos.left, jumpPos.top);
         }, 3000));
       }
-      if ((char.lastElementChild as HTMLImageElement).alt === 'elusive jump target') {
+      if (char.querySelector('.elusive-jump')) {
         const elusiveJump = elusiveJumpContainer();
         elusiveJump.append(diveFromGrace());
         char.append(elusiveJump);
@@ -374,7 +378,7 @@
           makeTowerAtPos(jumpPos.left, jumpPos.top);
         }, 3000));
       }
-      if ((char.lastElementChild as HTMLImageElement).alt === 'spineshatter dive target') {
+      if (char.querySelector('.spineshatter-dive')) {
         const spineshatterDive = spineshatterDiveContainer();
         spineshatterDive.append(diveFromGrace());
         char.append(spineshatterDive);
@@ -542,7 +546,7 @@
    */
   const stepNine = () => {
     // Need to do. Towers first tho.
-    toggleNotFinished();
+    geirskogulsBaited();
   };
 
   /**
@@ -661,7 +665,7 @@
    */
   const stepEleven = () => {
     // Need to do. Towers first tho.
-    toggleNotFinished();
+    geirskogulsGoOff();
   };
 
   /**
@@ -713,7 +717,7 @@
   const stepThirteen = () => {
     inLineGroups.third.forEach(char => char.removeChild(char.children[3]));
     // Need to do. Towers first tho.
-    toggleNotFinished();
+    geirskogulsBaited();
   };
 
   /**
@@ -738,8 +742,8 @@
     aoeTarget.append(aoeContainer);
 
     const aoePos = sharedAoe.getBoundingClientRect();
-    aoePos.width = 256;
-    aoePos.height = 256;
+    aoePos.width = 260;
+    aoePos.height = 260;
     const soakers = [
       inLineGroups.second[0].querySelector('.icon-sizing').getBoundingClientRect(),
       inLineGroups.second[1].querySelector('.icon-sizing').getBoundingClientRect(),
@@ -771,7 +775,7 @@
     inLineGroups.third.forEach((char, i) => {
       const highJump = highJumpContainer();
       highJump.append(diveFromGrace());
-      if ((char.lastElementChild as HTMLImageElement).alt === 'high jump target') {
+      if (char.querySelector('.high-jump')) {
         char.append(highJump);
 
         const jumpPos = highJump.getBoundingClientRect();
@@ -790,7 +794,7 @@
           makeTowerAtPos(jumpPos.left, jumpPos.top);
         }, 3000));
       }
-      if ((char.lastElementChild as HTMLImageElement).alt === 'elusive jump target') {
+      if (char.querySelector('.elusive-jump')) {
         const elusiveJump = elusiveJumpContainer();
         elusiveJump.append(diveFromGrace());
         char.append(elusiveJump);
@@ -813,7 +817,7 @@
           makeTowerAtPos(jumpPos.left, jumpPos.top);
         }, 3000));
       }
-      if ((char.lastElementChild as HTMLImageElement).alt === 'spineshatter dive target') {
+      if (char.querySelector('.spineshatter-dive')) {
         const spineshatterDive = spineshatterDiveContainer();
         spineshatterDive.append(diveFromGrace());
         char.append(spineshatterDive);
@@ -842,6 +846,7 @@
       switch (i) {
         case 0:
           const diveCharOne = inLineGroups.third[i].querySelector('.icon-sizing').getBoundingClientRect();
+          console.log(diveCharOne);
           if (isInside(diveTwo, diveCharOne)) {
             failStep();
             toggleDiveThreeFail();
@@ -857,6 +862,7 @@
           break;
         case 1:
           const diveCharTwo = inLineGroups.third[i].querySelector('.icon-sizing').getBoundingClientRect();
+          console.log(diveCharTwo)
           if (isInside(diveOne, diveCharTwo)) {
 
             toggleDiveThreeFail();
@@ -872,6 +878,7 @@
           break;
         case 2:
           const diveCharThree = inLineGroups.third[i].querySelector('.icon-sizing').getBoundingClientRect();
+          console.log(diveCharThree)
           if (isInside(diveOne, diveCharThree)) {
             failStep();
             toggleDiveThreeFail();
@@ -921,7 +928,7 @@
       aoeContainer.remove();
     }, 3000);
 
-    towerPositions.first = positions;
+    towerPositions.third = positions;
   };
 
   /**
@@ -929,7 +936,7 @@
    */
   const stepFifteen = () => {
     // Need to do. Towers first tho.
-    toggleNotFinished();
+    geirskogulsGoOff();
   }
 
   /**
@@ -1006,9 +1013,12 @@
    * 0:58 Third in line: Clone Baits
    */
   const stepNineteen = () => {
-    // Need to do. Towers first tho.
-    toggleNotFinished();
+    geirskogulsBaited();
+  }
+
+  const stepTwenty = () => {
     document.getElementById('nextStepButton').setAttribute('disabled', 'true');
+    toggleNotFinished();
   }
 
   const initEvents = () => {
@@ -1075,6 +1085,9 @@
         case 19:
           stepNineteen();
           break;
+        case 20:
+          stepTwenty();
+          break;
         default:
           break;
       }
@@ -1120,10 +1133,6 @@
   <p>One of the second towers were not soaked! This set is to be soaked by players with the first <code>Dive from Grace</code> <img src="images/First_in_Line.png" class="debuff-sizing" alt="third in line" /> debuff because the second and third in line players have a fire resistance down debuff, and the third in line players are getting ready to place their dives.</p>
 </Modal>
 
-<Modal body header="Not Finished" isOpen={notFinishedOpen} toggle={toggleNotFinished} class="modal-lg modal-dialog-centered">
-  <p>I haven't finished this step. Sorry, go on to the next one.</p>
-</Modal>
-
 <Modal body header="Eye of the Tyrant soak failed!" isOpen={soakFailTwoOpen} toggle={toggleSoakTwoFail} class="modal-lg modal-dialog-centered">
   <p>One or more players were not in the <code>Eye of the Tyrant</code> soak! When Nidhogg starts casting <code>Lash and Gnash/Gnash and Lash</code> all players that are not marked with the third <code>Dive from Grace</code> <img src="images/Third_in_Line.png" class="debuff-sizing" alt="third in line" /> should stack in preparation for this shared AOE.</p>
 </Modal>
@@ -1134,4 +1143,16 @@
 
 <Modal body header="Third tower soaks failed!" isOpen={thirdTowerSoakFailOpen} toggle={toggleThirdTowerSoakFail} class="modal-lg modal-dialog-centered">
   <p>One of the second towers were not soaked! This set is to be soaked by players with the first <code>Dive from Grace</code> <img src="images/First_in_Line.png" class="debuff-sizing" alt="third in line" /> debuff the do not have <code>Fire Resistance Down</code> <img src="images/Fire_Resistance_Down.png" class="debuff-sizing" alt="fire resistance down" /> and both of the second  <code>Dive from Grace</code> <img src="images/Second_in_Line.png" class="debuff-sizing" alt="second in line" /> targets.</p>
+</Modal>
+
+<Modal body header="Geirskoguls get baited" isOpen={geirskogulsBaitedOpen} toggle={geirskogulsBaited} class="modal-lg modal-dialog-centered">
+  <p>The Nidhogg clones will face the player closest to them. The player that soaked the tower will want to face these away before the clones start their cast.</p>
+</Modal>
+
+<Modal body header="Geirskoguls go off" isOpen={geirskogulsGoOffOpen} toggle={geirskogulsGoOff} class="modal-lg modal-dialog-centered">
+  <p>Gierskoguls will go off firing a line AOE in the direction of the player that was closest to the clone when the cast started.</p>
+</Modal>
+
+<Modal body header="Not Finished" isOpen={notFinishedOpen} toggle={toggleNotFinished} class="modal-lg modal-dialog-centered">
+  <p>I haven't finished from here on, sorry.</p>
 </Modal>
